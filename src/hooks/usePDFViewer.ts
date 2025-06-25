@@ -52,7 +52,14 @@ export const usePDFViewer = () => {
   // Document loading
   const loadDocument = useCallback(
     async (file: File | string): Promise<void> => {
-      updateState({ isLoading: true, error: null });
+      updateState({
+        isLoading: true,
+        error: null,
+        numPages: 0,
+        currentPage: 1,
+        searchResults: [],
+        currentSearchIndex: -1,
+      });
 
       try {
         // This would integrate with react-pdf
@@ -78,7 +85,12 @@ export const usePDFViewer = () => {
           message: "Failed to load PDF document",
           details: error,
         };
-        updateState({ error: pdfError.message, isLoading: false });
+        updateState({
+          error: pdfError.message,
+          isLoading: false,
+          numPages: 0,
+          currentPage: 1,
+        });
       }
     },
     [updateState],
