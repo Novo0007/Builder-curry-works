@@ -294,7 +294,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
         onRotate={rotateClockwise}
         onSearch={search}
         onToggleThumbnails={toggleThumbnails}
-        onToggleTheme={toggleTheme}
+        onToggleTheme={handleThemeToggle}
         onPrint={enablePrint ? handlePrint : () => {}}
         onDownload={enableDownload ? handleDownload : () => {}}
         canGoToPrevious={canGoToPrevious}
