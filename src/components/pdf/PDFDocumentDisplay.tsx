@@ -160,54 +160,67 @@ export const PDFDocumentDisplay: React.FC<PDFDocumentDisplayProps> = ({
     </div>
   );
 
-  const renderPage = (pageNumber: number) => (
-    <div
-      key={pageNumber}
-      className="relative mb-8 mx-auto"
-      onClick={(e) => handlePageClick(e, pageNumber)}
-    >
-      <div className="pdf-page relative">
-        <Page
-          pageNumber={pageNumber}
-          scale={pageScale}
-          rotate={state.rotation}
-          onLoadSuccess={onPageLoadSuccess}
-          loading={
-            <div className="flex items-center justify-center h-96 bg-muted/20 rounded">
-              <Loader2 className="h-6 w-6 animate-spin" />
-            </div>
-          }
-          error={
-            <div className="flex items-center justify-center h-96 bg-destructive/10 rounded">
-              <AlertCircle className="h-6 w-6 text-destructive" />
-            </div>
-          }
-        />
-        {renderPageAnnotations(pageNumber)}
+  const renderPage = (pageNumber: number) => {
+    // Validate page number
+    if (pageNumber < 1 || pageNumber > state.numPages) {
+      return null;
+    }
 
-        {/* Search highlights would go here */}
-        {state.searchResults
-          .filter((result) => result.pageNumber === pageNumber)
-          .map((result, index) => (
-            <div
-              key={index}
-              className="absolute bg-primary/20 border border-primary rounded"
-              style={{
-                left: `${result.boundingBox.x * pageScale}px`,
-                top: `${result.boundingBox.y * pageScale}px`,
-                width: `${result.boundingBox.width * pageScale}px`,
-                height: `${result.boundingBox.height * pageScale}px`,
-              }}
-            />
-          ))}
-      </div>
+    return (
+      <div
+        key={pageNumber}
+        className="relative mb-8 mx-auto"
+        onClick={(e) => handlePageClick(e, pageNumber)}
+      >
+        <div className="pdf-page relative">
+          <Page
+            pageNumber={pageNumber}
+            scale={pageScale}
+            rotate={state.rotation}
+            onLoadSuccess={onPageLoadSuccess}
+            onLoadError={(error) => {
+              console.warn(`Failed to load page ${pageNumber}:`, error);
+            }}
+            loading={
+              <div className="flex items-center justify-center h-96 bg-muted/20 rounded">
+                <Loader2 className="h-6 w-6 animate-spin" />
+              </div>
+            }
+            error={
+              <div className="flex items-center justify-center h-96 bg-destructive/10 rounded">
+                <AlertCircle className="h-6 w-6 text-destructive" />
+                <span className="ml-2 text-sm">
+                  Failed to load page {pageNumber}
+                </span>
+              </div>
+            }
+          />
+          {renderPageAnnotations(pageNumber)}
 
-      {/* Page number indicator */}
-      <div className="absolute bottom-2 right-2 bg-background/80 px-2 py-1 rounded text-xs text-muted-foreground">
-        {pageNumber}
+          {/* Search highlights would go here */}
+          {state.searchResults
+            .filter((result) => result.pageNumber === pageNumber)
+            .map((result, index) => (
+              <div
+                key={index}
+                className="absolute bg-primary/20 border border-primary rounded"
+                style={{
+                  left: `${result.boundingBox.x * pageScale}px`,
+                  top: `${result.boundingBox.y * pageScale}px`,
+                  width: `${result.boundingBox.width * pageScale}px`,
+                  height: `${result.boundingBox.height * pageScale}px`,
+                }}
+              />
+            ))}
+        </div>
+
+        {/* Page number indicator */}
+        <div className="absolute bottom-2 right-2 bg-background/80 px-2 py-1 rounded text-xs text-muted-foreground">
+          {pageNumber}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   if (!file) {
     return (
