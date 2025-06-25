@@ -1,15 +1,13 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Loader2, AlertCircle, FileText } from "lucide-react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Document, Page } from "react-pdf";
 import { PDFViewerState, Annotation } from "@/types/pdf";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
+import "@/lib/pdfWorker";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-
-// Set up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface PDFDocumentDisplayProps {
   file?: File | string;
