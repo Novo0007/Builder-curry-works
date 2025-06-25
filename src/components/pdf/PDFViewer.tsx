@@ -33,6 +33,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
   onError,
 }) => {
   const { toast } = useToast();
+  const { theme, setTheme } = useTheme();
   const [currentFile, setCurrentFile] = useState<File | string | undefined>(
     initialFile,
   );
@@ -60,12 +61,16 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     updateAnnotation,
     deleteAnnotation,
     toggleThumbnails,
-    toggleTheme,
     canGoToPrevious,
     canGoToNext,
     hasSearchResults,
     currentSearchResult,
   } = usePDFViewer();
+
+  // Handle theme toggle using next-themes
+  const handleThemeToggle = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
 
   // Set up keyboard shortcuts
   const keyboardShortcuts = createPDFKeyboardShortcuts({
