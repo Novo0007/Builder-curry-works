@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import { PDFToolbar } from "./PDFToolbar";
 import { PDFThumbnailSidebar } from "./PDFThumbnailSidebar";
 import { PDFDocumentDisplay } from "./PDFDocumentDisplay";
