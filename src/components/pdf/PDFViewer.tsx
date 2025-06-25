@@ -281,7 +281,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     <div className="pdf-viewer-container flex flex-col h-screen">
       {/* Toolbar */}
       <PDFToolbar
-        state={state}
+        state={{ ...state, theme: theme as "light" | "dark" }}
         zoomLevels={zoomLevels}
         onPageChange={goToPage}
         onNextPage={nextPage}
