@@ -260,11 +260,7 @@ export const usePDFViewer = () => {
   const toggleTheme = useCallback(() => {
     const newTheme = state.theme === "light" ? "dark" : "light";
     updateState({ theme: newTheme });
-
-    // Safely access document.documentElement
-    if (typeof document !== "undefined" && document.documentElement) {
-      document.documentElement.classList.toggle("dark", newTheme === "dark");
-    }
+    // Note: Theme class management is handled by next-themes ThemeProvider
   }, [state.theme, updateState]);
 
   // Cleanup
