@@ -253,13 +253,18 @@ export const PDFDocumentDisplay: React.FC<PDFDocumentDisplayProps> = ({
       >
         <ScrollArea className="h-full pdf-scrollbar">
           <div className="flex flex-col items-center py-8 px-4">
-            {/* Render all pages for continuous scrolling */}
-            {Array.from({ length: state.numPages }, (_, index) => index + 1)
-              .slice(
-                Math.max(0, state.currentPage - 3),
-                Math.min(state.numPages, state.currentPage + 2),
-              )
-              .map((pageNumber) => renderPage(pageNumber))}
+            {/* Render pages only if document is loaded */}
+            {state.numPages > 0 &&
+              Array.from({ length: state.numPages }, (_, index) => index + 1)
+                .slice(
+                  Math.max(0, state.currentPage - 3),
+                  Math.min(state.numPages, state.currentPage + 2),
+                )
+                .filter(
+                  (pageNumber) =>
+                    pageNumber >= 1 && pageNumber <= state.numPages,
+                )
+                .map((pageNumber) => renderPage(pageNumber))}
           </div>
         </ScrollArea>
       </Document>
