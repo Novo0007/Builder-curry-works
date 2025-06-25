@@ -1,6 +1,11 @@
 import { pdfjs } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
 
-// Configure PDF.js worker - use Vite-compatible approach
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
+// Use react-pdf's built-in worker
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "react-pdf/dist/esm/pdf.worker.entry.js",
+  import.meta.url,
+).toString();
 
 export { pdfjs };
