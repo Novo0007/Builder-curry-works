@@ -253,9 +253,9 @@ export const PDFFileUpload: React.FC<PDFFileUploadProps> = ({
             variant="outline"
             size="sm"
             onClick={() => {
-              // In a real app, this would load a sample PDF
-              const sampleUrl = "/sample-document.pdf";
-              onFileSelect(sampleUrl as any);
+              import("@/lib/samplePDFs").then(({ getMockPDFFile }) => {
+                onFileSelect(getMockPDFFile());
+              });
             }}
           >
             Sample Report
@@ -264,8 +264,9 @@ export const PDFFileUpload: React.FC<PDFFileUploadProps> = ({
             variant="outline"
             size="sm"
             onClick={() => {
-              const sampleUrl = "/sample-presentation.pdf";
-              onFileSelect(sampleUrl as any);
+              import("@/lib/samplePDFs").then(({ samplePDFs }) => {
+                onFileSelect(samplePDFs.presentation.url);
+              });
             }}
           >
             Sample Presentation
@@ -274,8 +275,9 @@ export const PDFFileUpload: React.FC<PDFFileUploadProps> = ({
             variant="outline"
             size="sm"
             onClick={() => {
-              const sampleUrl = "/sample-manual.pdf";
-              onFileSelect(sampleUrl as any);
+              import("@/lib/samplePDFs").then(({ samplePDFs }) => {
+                onFileSelect(samplePDFs.manual.url);
+              });
             }}
           >
             Sample Manual
